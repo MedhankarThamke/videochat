@@ -21,7 +21,11 @@ app.use(express.urlencoded({ limit: "40kb", extended: true }));
 app.use("/api/v1/users", userRoutes);
 
 const start = async () => {
-  const connectionDb = await mongoose.connect(process.env.MONGO_URI);
+  const connectionDb = await mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
   // console.log(`connected to ${connectionDb.connection.host}`);
 
   server.listen(app.get("port"), () => {
