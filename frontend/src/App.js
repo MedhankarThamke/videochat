@@ -3,9 +3,9 @@ import "./App.css";
 
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 // import Landing from "./pages/Landing";
-import Landing from "./pages/Landing.jsx";
 
 import Authentication from "./pages/Authentication";
+import Landing from "./pages/Landing.jsx";
 import { AuthProvider } from "./contexts/AuthContext";
 import VideoMeetComponent from "./pages/VideoMeet";
 import HomeComponent from "./pages/HomeComponent";
