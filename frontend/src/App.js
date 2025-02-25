@@ -2,12 +2,12 @@ import logo from "./logo.svg";
 import "./App.css";
 
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import LandingPage from "./pages/Landing";
-import Authentication from "./pages/Authentication";
+import LandingPage from "./pages/landing";
+import Authentication from "./pages/authentication";
 import { AuthProvider } from "./contexts/AuthContext";
 import VideoMeetComponent from "./pages/VideoMeet";
 import HomeComponent from "./pages/HomeComponent";
-import History from "./pages/History";
+import History from "./pages/history";
 function App() {
   return (
     <>
