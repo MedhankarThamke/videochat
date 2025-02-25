@@ -2,7 +2,8 @@ import logo from "./logo.svg";
 import "./App.css";
 
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Landing from "./pages/Landing";
+// import Landing from "./pages/Landing";
+import Landing from "./pages/Landing.jsx";
 
 import Authentication from "./pages/Authentication";
 import { AuthProvider } from "./contexts/AuthContext";
