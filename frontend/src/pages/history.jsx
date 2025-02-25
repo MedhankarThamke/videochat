@@ -1,88 +1,87 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom';
-import Card from '@mui/material/Card';
-import Box from '@mui/material/Box';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import HomeIcon from '@mui/icons-material/Home';
+import React, { useContext, useEffect, useState } from "react";
+import Card from "@mui/material/Card";
+import { AuthContext } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import CardContent from "@mui/material/CardContent";
+import { IconButton, TextField } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
 
-import { IconButton } from '@mui/material';
+import Box from "@mui/material/Box";
+import CardActions from "@mui/material/CardActions";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+
 export default function History() {
+  const { getHistoryOfUser } = useContext(AuthContext);
 
+  const [meetings, setMeetings] = useState([]);
 
-    const { getHistoryOfUser } = useContext(AuthContext);
+  const routeTo = useNavigate();
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const history = await getHistoryOfUser();
+        // console.log("Fetched history:", history); // Add this
 
-    const [meetings, setMeetings] = useState([])
+        setMeetings(history);
+      } catch {
+        // IMPLEMENT SNACKBAR
+        console.error("Error fetching meeting history");
+      }
+    };
 
+    fetchHistory();
+  }, []);
 
-    const routeTo = useNavigate();
+  let formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
 
-    useEffect(() => {
-        const fetchHistory = async () => {
-            try {
-                const history = await getHistoryOfUser();
-                setMeetings(history);
-            } catch {
-                // IMPLEMENT SNACKBAR
-            }
-        }
+    let hours = date.getHours();
+    let minutes = date.getMinutes().toString().padStart(2, "0");
+    let ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12; // Convert to 12-hour format
 
-        fetchHistory();
-    }, [])
+    return `${day}/${month}/${year}  ${hours}:${minutes} ${ampm}`;
+  };
 
-    let formatDate = (dateString) => {
+  //   console.log(`meeting ${meetings}`);
+  return (
+    <div>
+      <IconButton
+        onClick={() => {
+          routeTo("/home");
+        }}
+      >
+        <HomeIcon />
+      </IconButton>
+      {meetings.length !== 0 ? (
+        meetings.map((e, i) => {
+          return (
+            <>
+              <Card key={i} variant="outlined">
+                <CardContent>
+                  <Typography
+                    sx={{ fontSize: 14 }}
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    Code: {e.meetingCode}
+                  </Typography>
 
-        const date = new Date(dateString);
-        const day = date.getDate().toString().padStart(2, "0");
-        const month = (date.getMonth() + 1).toString().padStart(2, "0")
-        const year = date.getFullYear();
-
-        return `${day}/${month}/${year}`
-
-    }
-
-    return (
-        <div>
-
-            <IconButton onClick={() => {
-                routeTo("/home")
-            }}>
-                <HomeIcon />
-            </IconButton >
-            {
-                (meetings.length !== 0) ? meetings.map((e, i) => {
-                    return (
-
-                        <>
-
-
-                            <Card key={i} variant="outlined">
-
-
-                                <CardContent>
-                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        Code: {e.meetingCode}
-                                    </Typography>
-
-                                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        Date: {formatDate(e.date)}
-                                    </Typography>
-
-                                </CardContent>
-
-
-                            </Card>
-
-
-                        </>
-                    )
-                }) : <></>
-
-            }
-
-        </div>
-    )
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    Date: {formatDate(e.date)}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </>
+          );
+        })
+      ) : (
+        <></>
+      )}
+    </div>
+  );
 }
