@@ -2,10 +2,8 @@ import logo from "./logo.svg";
 import "./App.css";
 
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-// import Landing from "./pages/Landing";
-
+import LandingPage from "./pages/Landing";
 import Authentication from "./pages/Authentication";
-import Landing from "./pages/Landing.jsx";
 import { AuthProvider } from "./contexts/AuthContext";
 import VideoMeetComponent from "./pages/VideoMeet";
 import HomeComponent from "./pages/HomeComponent";
@@ -17,7 +15,7 @@ function App() {
         <AuthProvider>
           <Routes>
             {/* <Route path="/home"></Route> */}
-            <Route path="/" element={<Landing />}></Route>
+            <Route path="/" element={<LandingPage />}></Route>
             <Route path="/auth" element={<Authentication />}></Route>
             <Route path="/home" element={<HomeComponent />}></Route>
             <Route path="/history" element={<History />}></Route>
